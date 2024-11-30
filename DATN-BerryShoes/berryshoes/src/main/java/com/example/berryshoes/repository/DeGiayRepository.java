@@ -1,7 +1,10 @@
 package com.example.berryshoes.repository;
 
 import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.entity.HoaDon;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -44,4 +47,7 @@ public interface DeGiayRepository extends JpaRepository<DeGiay, Integer> {
 
     // Kiểm tra xem đế giày có tồn tại theo tên
     boolean existsByTenDeGiay(String ten);
+
+    @Query("select d from DeGiay d where d.trangThai = ?1")
+    Page<DeGiay> findByTrangThai(Integer trangthai, Pageable pageable);
 }

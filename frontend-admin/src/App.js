@@ -3,6 +3,7 @@ import {Routes, Route,BrowserRouter as Router} from 'react-router-dom'
 import { publicRoutes, adminRoutes, nhanvienRoutes } from './router/index';
 import AdminLayout from './layout/admin/Layout'
 import NhanVienLayout from './layout/nhanvien/Layout'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   // let checkAdmin = window.location.pathname.startsWith("/admin")

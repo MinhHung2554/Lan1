@@ -1,6 +1,9 @@
 package com.example.berryshoes.repository;
 
 import com.example.berryshoes.entity.KhachHang;
+import com.example.berryshoes.entity.NhanVien;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -69,5 +72,7 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     // lấy max mã KH
     @Query("SELECT MAX(kh.maKhachHang) FROM KhachHang kh")
     Optional<String> findMaxMaKhachHang();
-
+    //phân trang
+    @Query("select kh from KhachHang kh where kh.trangThai = ?1")
+    Page<KhachHang> findByTrangThai(Integer trangthai, Pageable pageable);
 }

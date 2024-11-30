@@ -127,6 +127,12 @@ function Product(){
             <div class="container-fluid">
                 <div className='row'>
                     <div className='col-sm-4'>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 listheadermenu">
+                            <h3>Tìm kiếm sản phẩm</h3>
+                            <form class="mb-3" action="product">
+                                <input class="form-control" type="search" name="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search"/>
+                            </form>
+                        </ul>
                         <div className='headerloc'>
                             <span>Bộ lọc sản phẩm</span>
                         </div>

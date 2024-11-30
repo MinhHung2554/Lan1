@@ -1,11 +1,16 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.repository.ThuongHieuRepository;
 import com.example.berryshoes.service.ThuongHieuService;
 import com.example.berryshoes.dto.request.ThuongHieuRequest;
 import com.example.berryshoes.dto.response.ThuongHieuResponse;
 import com.example.berryshoes.entity.ThuongHieu;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,8 @@ import java.util.stream.Collectors;
 public class ThuongHieuController {
     @Autowired
     private ThuongHieuService thuongHieuService;
+    @Autowired
+    private ThuongHieuRepository thuongHieuRepository;
 
     // Lấy tất cả thương hiệu
     @GetMapping
@@ -36,6 +43,17 @@ public class ThuongHieuController {
             return response;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(responseList);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<ThuongHieu> page = null;
+        if(trangthai == null){
+            page = thuongHieuRepository.findAll(pageable);
+        }
+        else{
+            page = thuongHieuRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Lấy thương hiệu theo ID
@@ -58,6 +76,7 @@ public class ThuongHieuController {
     // Tạo mới thương hiệu
     @PostMapping
     public ResponseEntity<ThuongHieuResponse> createThuongHieu(@RequestBody ThuongHieuRequest requestDTO) {
+        validateThuongHieu(requestDTO);
         ThuongHieu createdThuongHieu = thuongHieuService.createThuongHieu(requestDTO);
         ThuongHieuResponse response = new ThuongHieuResponse();
         response.setId(createdThuongHieu.getId());
@@ -68,6 +87,22 @@ public class ThuongHieuController {
         response.setNguoiCapNhat(createdThuongHieu.getNguoiCapNhat());
         response.setTrangThai(createdThuongHieu.getTrangThai());
         return ResponseEntity.ok(response);
+    }
+
+    private void validateThuongHieu(ThuongHieuRequest requestDTO) {
+        if (requestDTO.getTenThuongHieu() == null || requestDTO.getTenThuongHieu().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên chất liệu không được trống");
+        }
+
+        // Kiểm tra độ dài tên chất liệu không quá 255 ký tự
+        if (requestDTO.getTenThuongHieu().length() > 255) {
+            throw new IllegalArgumentException("Tên chất liệu quá dài");
+        }
+
+        // Kiểm tra trùng lặp tên chất liệu
+        if (thuongHieuService.existsByTenThuongHieu(requestDTO.getTenThuongHieu())) {
+            throw new IllegalArgumentException("Tên chất liệu đã tồn tại");
+        }
     }
 
     // Cập nhật thương hiệu

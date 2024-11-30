@@ -1,7 +1,10 @@
 package com.example.berryshoes.repository;
 
+import com.example.berryshoes.entity.DeGiay;
 import com.example.berryshoes.entity.KichCo;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -38,4 +41,7 @@ public interface KichCoRepository extends JpaRepository<KichCo, Integer> {
     @Transactional
     @Query("UPDATE KichCo kc SET kc.trangThai = 0 WHERE kc.id = :id")
     void updateTrangThaiToFalseById(@Param("id") Integer id);
+
+    @Query("select kc from KichCo kc where kc.trangThai = ?1")
+    Page<KichCo> findByTrangThai(Integer trangthai, Pageable pageable);
 }

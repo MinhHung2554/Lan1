@@ -10,6 +10,7 @@ import { formatMoney } from '../../services/money';
 
 const AdminProduct = ()=>{
     const [items, setItems] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     useEffect(()=>{
         getProduct();
     }, []);
@@ -18,24 +19,34 @@ const AdminProduct = ()=>{
         var response = await getMethod('/api/san-pham');
         var result = await response.json();
         setItems(result)
+
     }
 
 
 
     async function deleteProduct(id){
-        var con = window.confirm("Confirm?");
-        if (con == false) {
-            return;
-        }
-        const response = await deleteMethod('/api/san-pham/' + id)
-        if (response.status < 300) {
-            toast.success("Xóa thành công!");
-            getProduct();
-        }
-        if (response.status > 300) {
-            var result = await response.json()
-            toast.warning(result.message);
-        }
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+            reverseButtons: true,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await deleteMethod('/api/san-pham/' + id);
+                if (response.status < 300) {
+                    toast.success("Xóa thành công!");
+                    getProduct();
+                } else if (response.status > 300) {
+                    const result = await response.json();
+                    toast.warning(result.message);
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("Hủy thao tác xóa.");
+            }
+        });
     }
 
 
@@ -60,7 +71,7 @@ const AdminProduct = ()=>{
                             <tr>
                                 <th>Id</th>
                                 <th>Ảnh</th>
-                                <th>Mã sản phẩm</th>
+                                {/*<th>Mã sản phẩm</th>*/}
                                 <th>Tên sản phẩm</th>
                                 <th>Giá bán</th>
                                 <th>Thương hiệu</th>
@@ -69,29 +80,42 @@ const AdminProduct = ()=>{
                                 <th>Ngày tạo</th>
                                 <th>Người tạo</th>
                                 <th>Người cập nhật</th>
+                                <th>Trạng thái</th>
                                 <th class="sticky-col">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map((item=>{
-                                    return  <tr>
-                                    <td>{item.id}</td>
-                                    <td><img src={item.anh} className='imgtable'/></td>
-                                    <td>{item.maSanPham}</td>
-                                    <td>{item.tenSanPham}</td>
-                                    <td>{item.giaBan}</td>
-                                    <td>{item.thuongHieu?.tenThuongHieu}</td>
-                                    <td>{item.chatLieu?.tenChatLieu}</td>
-                                    <td>{item.deGiay?.tenDeGiay}</td>
-                                    <td>{item.ngayTao}</td>
-                                    <td>{item.nguoiTao}</td>
-                                    <td>{item.nguoiCapNhat}</td>
-                                    <td class="sticky-col">
-                                        <a href={"add-product?id="+item.id} class="edit-btn"><i className='fa fa-edit'></i></a>
-                                        <a target='_blank' href={"sanphamchitiet?sanpham="+item.id} class="edit-btn"><i className='fa fa-eye'></i></a>
-                                        <button onClick={()=>deleteProduct(item.id)} class="delete-btn"><i className='fa fa-trash'></i></button>
-                                    </td>
-                                </tr>
+                                    return <tr>
+                                        <td>{item.id}</td>
+                                        <td><img src={item.anh} className='imgtable'/></td>
+                                        {/*<td>{item.maSanPham}</td>*/}
+                                        <td>{item.tenSanPham}</td>
+                                        <td>{item.giaBan}</td>
+                                        <td>{item.thuongHieu?.tenThuongHieu}</td>
+                                        <td>{item.chatLieu?.tenChatLieu}</td>
+                                        <td>{item.deGiay?.tenDeGiay}</td>
+                                        <td>{item.ngayTao}</td>
+                                        <td>{item.nguoiTao}</td>
+                                        <td>{item.nguoiCapNhat}</td>
+                                        <td
+                                            style={{
+                                                textAlign: "center",
+                                                color: item.trangThai === 0 ? "#6c757d" : "#155724", // Xám đậm hoặc Xanh đậm
+                                            }}
+                                        >
+                                            {item.trangThai === 0 ? "Không sử dụng" : "Đang sử dụng"}
+                                        </td>
+                                        <td class="sticky-col">
+                                            <a href={"add-product?id=" + item.id} class="edit-btn"><i
+                                                className='fa fa-edit'></i></a>
+                                            <br/> <br/>
+                                            <a target='_blank' href={"sanphamchitiet?sanpham=" + item.id}
+                                               class="edit-btn"><i className='fa fa-eye'></i></a>
+                                            {/*<button onClick={() => deleteProduct(item.id)} class="delete-btn"><i*/}
+                                            {/*    className='fa fa-trash'></i></button>*/}
+                                        </td>
+                                    </tr>
                             }))}
                         </tbody>
                     </table>

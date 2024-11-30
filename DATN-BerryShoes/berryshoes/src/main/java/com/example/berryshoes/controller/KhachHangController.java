@@ -5,11 +5,15 @@ import com.example.berryshoes.dto.response.KhachHangResponse;
 import com.example.berryshoes.dto.response.NhanVienResponse;
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
+import com.example.berryshoes.repository.KhachHangRepository;
 import com.example.berryshoes.service.KhachHangService;
 import com.example.berryshoes.utils.UserUltis;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class KhachHangController {
     private final KhachHangService khachHangService;
-
+    private final KhachHangRepository khachHangRepository;
 
     @Autowired
     private UserUltis userUltis;
@@ -50,7 +54,7 @@ public class KhachHangController {
     }
 
     // Cập nhật khách hàng
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<KhachHang> updateKhachHang(@PathVariable Integer id, @RequestBody KhachHangRequest requestDTO) {
         KhachHang updatedKhachHang = khachHangService.updateKhachHang(id, requestDTO);
         return updatedKhachHang != null ? ResponseEntity.ok(updatedKhachHang) : ResponseEntity.notFound().build();
@@ -125,7 +129,18 @@ public class KhachHangController {
         List<KhachHang> khachHangList = khachHangService.findAllByOrderByIdDesc();
         return ResponseEntity.ok(khachHangList);
     }
-
+    //phân trang
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<KhachHang> page = null;
+        if(trangthai == null){
+            page = khachHangRepository.findAll(pageable);
+        }
+        else{
+            page = khachHangRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
     @PostMapping("/dang-dang-nhap")
     public ResponseEntity<?> nhanVienDangDangNhap(HttpServletRequest request) {
         KhachHang khachHang = userUltis.getLoggedInKhachHang(request);

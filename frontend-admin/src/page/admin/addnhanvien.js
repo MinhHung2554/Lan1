@@ -22,7 +22,7 @@ const AdminAddNhanVien = ()=>{
                 var response = await getMethod('/api/nhan-vien/' + id);
                 var result = await response.json();
                 setItem(result)
-                linkbanner = result.anh
+                linkbanner = result.anh 
             }
         };
         getNhanVien();

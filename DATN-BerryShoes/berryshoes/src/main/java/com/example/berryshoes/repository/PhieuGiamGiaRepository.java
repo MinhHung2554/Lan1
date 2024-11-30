@@ -1,5 +1,6 @@
 package com.example.berryshoes.repository;
 
+import com.example.berryshoes.entity.DeGiay;
 import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.entity.PhieuGiamGia;
 import org.springframework.data.domain.Page;
@@ -44,4 +45,7 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Inte
 
     @Query("SELECT p FROM PhieuGiamGia p where current_date between p.ngayBatDau and p.ngayKetThuc and p.soLuong > 0")
     List<PhieuGiamGia> khaDung();
+
+    @Query("select p from PhieuGiamGia p where p.trangThai = ?1")
+    Page<PhieuGiamGia> findByTrangThai(Integer trangthai, Pageable pageable);
 }

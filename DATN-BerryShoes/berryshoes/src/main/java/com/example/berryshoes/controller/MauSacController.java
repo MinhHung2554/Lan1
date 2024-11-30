@@ -1,11 +1,16 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.repository.MauSacRepository;
 import com.example.berryshoes.service.MauSacService;
 import com.example.berryshoes.dto.request.MauSacRequest;
 import com.example.berryshoes.dto.response.MauSacResponse;
 import com.example.berryshoes.entity.MauSac;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,8 @@ import java.util.stream.Collectors;
 public class MauSacController {
     @Autowired
     private MauSacService mauSacService;
+    @Autowired
+    private MauSacRepository mauSacRepository;
 
     // Lấy tất cả màu sắc
     @GetMapping
@@ -37,6 +44,17 @@ public class MauSacController {
             return response;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(responseList);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<MauSac> page = null;
+        if(trangthai == null){
+            page = mauSacRepository.findAll(pageable);
+        }
+        else{
+            page = mauSacRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Lấy màu sắc theo ID
@@ -99,7 +117,7 @@ public class MauSacController {
         response.setTrangThai(mauSac.getTrangThai());
         return response;
     }
-//    //Thay doi trang thai
+    //    //Thay doi trang thai
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<Void> changeMauSac(@PathVariable Integer id) {
 //        mauSacService.deleteByTrangThai(id);

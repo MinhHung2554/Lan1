@@ -1,11 +1,17 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.entity.HoaDon;
+import com.example.berryshoes.repository.DeGiayRepository;
+import com.example.berryshoes.repository.HoaDonRepository;
 import com.example.berryshoes.service.DeGiayService;
 import com.example.berryshoes.dto.request.DeGiayRequest;
 import com.example.berryshoes.dto.response.DeGiayResponse;
 import com.example.berryshoes.entity.DeGiay;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +25,8 @@ import java.util.stream.Collectors;
 public class DeGiayController {
     @Autowired
     private DeGiayService deGiayService;
+    @Autowired
+    private DeGiayRepository deGiayRepository;
 
     // Kiểm tra tính hợp lệ của tên đế giày
     public void validateDeGiay(DeGiayRequest requestDTO) {
@@ -51,6 +59,18 @@ public class DeGiayController {
             return response;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(responseList);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<DeGiay> page = null;
+        if(trangthai == null){
+            page = deGiayRepository.findAll(pageable);
+        }
+        else{
+            page = deGiayRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Lấy đế giày theo ID

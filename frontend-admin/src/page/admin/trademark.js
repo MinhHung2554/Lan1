@@ -6,12 +6,15 @@ import { getMethod ,postMethodPayload, deleteMethod} from '../../services/reques
 import Swal from 'sweetalert2';
 
 
-
+var size = 5
+var url = '/api/thuong-hieu/all?&size='+size+'&sort=id,desc&page=';
 const AdminTrademark = ()=>{
     const [items, setItems] = useState([]);
     const [cate, setCate] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [pageCount, setPageCount] = useState(0);
     useEffect(()=>{
-        getCategrory();
+        getThuongHieu();
     }, []);
 
     async function saveCategory(event) {
@@ -50,6 +53,15 @@ const AdminTrademark = ()=>{
         setItems(result)
     }
 
+    const getThuongHieu = async() =>{
+        var response = await getMethod('/api/thuong-hieu/all?&size='+size+'&sort=id,desc&page='+0)
+        var result = await response.json();
+        console.log(result);
+        setItems(result.content)
+        setPageCount(result.totalPages)
+        url = '/api/thuong-hieu/all?&size='+size+'&sort=id,desc&page='
+    };
+
     async function deleteCategory(id){
         var con = window.confirm("Confirm?");
         if (con == false) {
@@ -69,7 +81,13 @@ const AdminTrademark = ()=>{
     function clearInput(){
         setCate(null);
     }
-
+    const handlePageClick = async (data)=>{
+        var currentPage = data.selected
+        var response = await getMethod(url+currentPage)
+        var result = await response.json();
+        setItems(result.content)
+        setPageCount(result.totalPages)
+    }
 
 
     return (
@@ -112,6 +130,22 @@ const AdminTrademark = ()=>{
                             }))}
                         </tbody>
                     </table>
+                    <ReactPaginate
+                        marginPagesDisplayed={2}
+                        pageCount={pageCount}
+                        onPageChange={handlePageClick}
+                        containerClassName={'pagination'}
+                        pageClassName={'page-item'}
+                        pageLinkClassName={'page-link'}
+                        previousClassName='page-item'
+                        previousLinkClassName='page-link'
+                        nextClassName='page-item'
+                        nextLinkClassName='page-link'
+                        breakClassName='page-item'
+                        breakLinkClassName='page-link'
+                        previousLabel='Trang trước'
+                        nextLabel='Trang sau'
+                        activeClassName='active'/>
                 </div>
             </div>
 

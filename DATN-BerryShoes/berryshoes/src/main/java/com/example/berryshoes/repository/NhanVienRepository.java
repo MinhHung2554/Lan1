@@ -1,10 +1,15 @@
 package com.example.berryshoes.repository;
 
+import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -37,15 +42,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
     List<NhanVien> getAllExceptId(@Param("id") Integer id);
 
     // Tìm kiếm nhân viên theo tên hoặc số điện thoại
-    @Query("SELECT n FROM NhanVien n WHERE " +
-            "(:key IS NULL OR n.hoVaTen LIKE %:key% OR n.soDienThoai LIKE %:key%) AND " +
-            "(:startDate IS NULL OR n.ngaySinh >= :startDate) AND " +
-            "(:endDate IS NULL OR n.ngaySinh <= :endDate) AND " +
-            "(:status IS NULL OR n.trangThai = :status)")
-    List<NhanVien> findByKey(@Param("key") String key,
-                             @Param("startDate") Date startDate,
-                             @Param("endDate") Date endDate,
-                             @Param("status") Integer status);
+    @Query("SELECT nv FROM NhanVien nv WHERE nv.hoVaTen LIKE %:hoVaTen% OR nv.soDienThoai LIKE %:soDienThoai%")
+    List<NhanVien> findByHoVaTenOrSoDienThoai(@Param("hoVaTen") String hoVaTen,
+                                              @Param("soDienThoai") String soDienThoai);
 
     // Tìm kiếm nhân viên theo tên hoặc số điện thoại, sắp xếp theo lần cập nhật cuối
     @Query("SELECT n FROM NhanVien n WHERE " +
@@ -56,4 +55,19 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
     List<NhanVien> findByKe(@Param("key") String key,
                             @Param("startDate") Date startDate,
                             @Param("endDate") Date endDate);
+    // Cập nhật mật khẩu cho Khách Hàng
+    @Transactional
+    @Modifying
+    @Query("UPDATE NhanVien nv SET nv.matKhau = :newPassword WHERE nv.taiKhoan = :taiKhoan")
+    void updatePassword(@Param("taiKhoan") String taiKhoan, @Param("newPassword") String newPassword);
+
+    // Kiểm tra tồn tại số điện thoại
+    boolean existsBySoDienThoai(String soDienThoai);
+
+    // Kiểm tra tồn tại email
+    boolean existsByEmail(String email);
+
+    @Query("select nv from NhanVien nv where nv.trangThai = ?1")
+    Page<NhanVien> findByTrangThai(Integer trangthai, Pageable pageable);
 }
+

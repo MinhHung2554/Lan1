@@ -2,6 +2,7 @@ package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.ChatLieuRequest;
 import com.example.berryshoes.entity.ChatLieu;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,6 @@ public interface ChatLieuService {
 
     List<ChatLieu> findByTenAndTrangThai(String ten, Integer trangThai);
     boolean existsByTenChatLieu(String tenChatLieu);
+    Page<ChatLieu> getAllChatLieuPaginated(int page, int size);
 }
+

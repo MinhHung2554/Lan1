@@ -1,3 +1,18 @@
+/* Đảm bảo header có chiều cao phù hợp */
+
+.tagaheadersdt {
+    display: flex;
+    align-items: center; /* Giúp logo và tên căn giữa theo chiều dọc */
+    text-decoration: none;
+}
+
+.brand-name {
+    font-size: 24px; /* Tăng kích thước chữ */
+    font-weight: bold; /* Đậm hơn */
+    color: #fff; /* Màu trắng */
+    margin-left: 10px; /* Tạo khoảng cách giữa logo và tên */
+}
+
 .dangnhapform{
     margin-top: 0px;
     background: #fff;
@@ -47,7 +62,7 @@
     font-size: 0.9rem;
 }
 .btndangnhap{
-    background: transparent linear-gradient(180deg,#FF5645 0%,#FF5722 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(180deg,#FF5645 0%,#262626 100%) 0% 0% no-repeat padding-box;
     box-shadow: 0 4px 6px #00000029;
     border-radius: 3px;
     color: #fff;
@@ -110,7 +125,7 @@
     text-decoration: none;
 }
 #menumain{
-    background: #FF5722;
+    background: #262626;
     position: fixed;
     width: 100%;
     z-index: 1000;
@@ -153,7 +168,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    color: #FF5722;
+    color: #262626;
     transform: translate(-50%, -50%);
 }
 .iconshopping{
@@ -222,7 +237,7 @@
 .danhmucleft{
     background-color: #fff;
     height: 400px;
-    overflow-y: scroll;
+    overflow: auto;
     display: flex;
     flex-direction: column; /* Đặt hướng flex thành cột */
     justify-content: space-between; /* Chia đều không gian giữa các phần tử */
@@ -251,11 +266,11 @@
     color: #fff;
 }
 .spdanhmucleft:hover{
-    background-color: #FF5722;
+    background-color: #262626;
     color: #fff !important;
 }
 .spdanhmucleft:hover .danhmucnameleft{
-    background-color: #FF5722;
+    background-color: #262626;
     color: #fff !important;
     border-bottom: none;
 }
@@ -363,6 +378,7 @@
            line-clamp: 2; 
    -webkit-box-orient: vertical;
    height: 40px;
+   padding-top: 10px;
 }
 .contentsinglepro{
     padding-left: 10px;
@@ -406,7 +422,7 @@
     border-radius: 10px;
 }
 #footer{
-    background-color: #6e6e6e;
+    background-color: #262626;
 }
 #footer a,#footer p,#footer h6,#footer div{
     color: #fff !important;
@@ -714,8 +730,8 @@
     margin-top: 20px;
     background: #fff;
     box-shadow: 0 4px 6px #00000029;
-    border: 2px solid #FF5722;
-    color: #FF5722;
+    border: 2px solid #262626;
+    color: #262626;
     border-radius: 10px;
     height: 50px;
     font-size: 16px;
@@ -783,7 +799,7 @@
 .ngaytraloi {
     /* margin-left: auto; */
     margin-left: 20px;
-    color: gray;
+    color: #262626;
 }
 
 .slcautl {
@@ -812,13 +828,13 @@
 .ngaytraloispl {
     margin-right: 10px;
     font-size: 0.9rem;
-    color: gray;
+    color: #262626;
 }
 
 .xoactlsp {
     cursor: pointer;
     font-size: 0.9rem;
-    color: gray;
+    color: #262626;
     text-align: center;
 }
 
@@ -1011,7 +1027,7 @@
     height: 22px;
     width: 22px;
     /* background-color: #eee; */
-    border: 1px solid gray;
+    border: 1px solid #262626;
     border-radius: 5px;
 }
 
@@ -1582,7 +1598,7 @@ tr {
     }
 }
 .logoheader{
-    width: 130px;
+    width: 80px;
 }
 .titlespmoi{
     display: block;
@@ -1752,10 +1768,12 @@ tr {
     margin-top: 40px;
 }
 .headerloc{
-    background-color: #FF5722;
-    color: #fff;
-    padding: 7px 10px;
+    background-color: #fff;
+    color: #262626;
+    padding: 7px 0;
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
 }
 .text-blue{
     color: blue !important;

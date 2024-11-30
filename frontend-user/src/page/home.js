@@ -9,7 +9,7 @@ import { getMethod ,uploadSingleFile, uploadMultipleFile, postMethodPayload} fro
 import { formatMoney} from '../services/money';
 
 
-var size = 15
+var size = 12
 var url = '';
 function Home(){
     const [thuongHieu, setThuongHieu] = useState([]);
@@ -51,7 +51,7 @@ function Home(){
         <div class="containercustom container">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-3">
+                    {/* <div class="col-sm-3">
                         <div class="danhmucleft" id="danhmucleft">
                             
                             {thuongHieu.map((item=>{
@@ -61,8 +61,8 @@ function Home(){
                             </span>
                             }))}
                         </div>
-                    </div>
-                    <div class="col-sm-9">
+                    </div> */}
+                    <div class="col-sm-12">
                         <div id="carouselExampleControls" class="carousel slide bannerindex" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
@@ -91,20 +91,20 @@ function Home(){
                     </div>
                     <div id="sanphammoinhat" class="listproduct row">
                     {sanPhamMoi.map((item=>{
-                        return <div class="col-lg-20p col-md-3 col-sm-6 col-6">
-                        <div class="singleproduct">
-                            <a href={'chitietsanpham?id='+item.id}><img src={item.anh} class="productimg"/></a>
-                            <div class="contentsinglepro">
-                                <p class="productname"><a class="productname" href={'chitietsanpham?id='+item.id}>{item.tenSanPham}</a></p>
-                                <div class="priceproduct">
-                                    <strong class="newprice">{formatMoney(item.giaBan)}</strong>
+                        return <div class="col-lg-20p col-md-3 col-sm-6 col-6 d-flex">
+                                <div class="singleproduct w-100">
+                                    <a href={'chitietsanpham?id='+item.id}><img src={item?.anh} class="productimg"/></a>
+                                    <div class="contentsinglepro">
+                                        <p class="productname"><a class="productname" href={'chitietsanpham?id='+item.id}>{item.tenSanPham}</a></p>
+                                        <div class="priceproduct">
+                                            <strong class="newprice">{formatMoney(item.giaBan)}</strong>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
                     </div>
                     }))}
                     </div>
-                    <br/><br/>
+                    {/* <br/><br/>
                     <ReactPaginate 
                         marginPagesDisplayed={2} 
                         pageCount={pageCount} 
@@ -120,7 +120,7 @@ function Home(){
                         breakLinkClassName='page-link' 
                         previousLabel='Trang trước'
                         nextLabel='Trang sau'
-                        activeClassName='active'/>
+                        activeClassName='active'/> */}
 
                 </div>
             </div>

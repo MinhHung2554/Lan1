@@ -1,6 +1,7 @@
 package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.request.PhieuGiamGiaRequest;
+import com.example.berryshoes.entity.DeGiay;
 import com.example.berryshoes.entity.GioHang;
 import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.entity.PhieuGiamGia;
@@ -43,6 +44,17 @@ public class PhieuGiamGiaController {
     public ResponseEntity<PhieuGiamGia> getPhieuGiamGiaById(@PathVariable Integer id) {
         Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaService.getPhieuGiamGiaById(id);
         return phieuGiamGia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<PhieuGiamGia> page = null;
+        if(trangthai == null){
+            page = phieuGiamGiaRepository.findAll(pageable);
+        }
+        else{
+            page = phieuGiamGiaRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Tạo mới phiếu giảm giá

@@ -99,7 +99,9 @@ GO
 	NguoiTao NVARCHAR(100) NULL,
 	LanCapNhatCuoi DATETIME DEFAULT GETDATE() NULL,
 	NguoiCapNhat NVARCHAR(100) NULL,
-	TrangThai INT DEFAULT 1
+	TrangThai INT DEFAULT 1,
+	[anh] [varchar](500) NULL,
+	[giaBan] [int] NULL,
 	)
 	GO
 	CREATE TABLE SanPhamChiTiet (
@@ -203,7 +205,9 @@ GO
 	NguoiTao NVARCHAR(100) NULL,
 	LanCapNhatCuoi DATETIME DEFAULT GETDATE() NULL,
 	NguoiCapNhat NVARCHAR(100) NULL,
-	TrangThai INT
+	TrangThai INT,
+	[daThanhToan] [bit] NULL
+
 	)
 	GO
 	CREATE TABLE HoaDonChiTiet (
@@ -390,23 +394,7 @@ VALUES
 (N'Gucci', N'Admin', N'Admin'),
 (N'Dolce', N'Admin', N'Admin'),
 (N'Balenciaga', N'Admin', N'Admin'),
-(N'Puma', N'Admin', N'Admin'),
-(N'Birkenstock', N'Admin', N'Admin'),
-(N'Salvatore Ferragamo', N'Admin', N'Admin'),
-(N'Timberland', N'Admin', N'Admin'),
-(N'New Balance', N'Admin', N'Admin'),
-(N'Fila', N'Admin', N'Admin'),
-(N'Kith', N'Admin', N'Admin'),
-(N'Off-White', N'Admin', N'Admin'),
-(N'Yeezy', N'Admin', N'Admin'),
-(N'Louis Vuitton', N'Admin', N'Admin'),
-(N'Burberry', N'Admin', N'Admin'),
-(N'Prada', N'Admin', N'Admin'),
-(N'Chanel', N'Admin', N'Admin'),
-(N'Merrell', N'Admin', N'Admin'),
-(N'H&M', N'Admin', N'Admin'),
-(N'Zara', N'Admin', N'Admin'),
-(N'Mango', N'Admin', N'Admin');
+(N'Puma', N'Admin', N'Admin')
 
 -- Bảng MauSac
 INSERT INTO MauSac (MaMauSac, TenMauSac, NguoiTao, NguoiCapNhat)
@@ -449,116 +437,174 @@ VALUES
 -- Bảng ChatLieu
 INSERT INTO ChatLieu (TenChatLieu, NguoiTao, NguoiCapNhat)
 VALUES
-(N'Da tổng hợp', N'Admin', N'Admin'),
-(N'Da bò', N'Admin', N'Admin'),
+(N'Da', N'Admin', N'Admin'),
 (N'Lụa', N'Admin', N'Admin'),
-(N'Canvas', N'Admin', N'Admin'),
-(N'Suede', N'Admin', N'Admin'),
-(N'Vải', N'Admin', N'Admin'),
-(N'Nhựa', N'Admin', N'Admin'),
-(N'Vải dù', N'Admin', N'Admin'),
-(N'Nỉ', N'Admin', N'Admin'),
-(N'Gỗ', N'Admin', N'Admin');
+(N'Vải', N'Admin', N'Admin')
 
 -- Bảng DeGiay
 INSERT INTO DeGiay (TenDeGiay, NguoiTao, NguoiCapNhat)
 VALUES
 (N'Da', N'Admin', N'Admin'),
 (N'Cao su', N'Admin', N'Admin'),
-(N'Dainite', N'Admin', N'Admin'),
-(N'Commando', N'Admin', N'Admin'),
-(N'Ridgeway', N'Admin', N'Admin'),
-(N'Crepe', N'Admin', N'Admin'),
-(N'Wedge', N'Admin', N'Admin'),
-(N'Raw Cord', N'Admin', N'Admin'),
-(N'Leather', N'Admin', N'Admin'),
-(N'Rubber', N'Admin', N'Admin');
-
+(N'Nhựa PU', N'Admin', N'Admin'),
+(N'Boost', N'Admin', N'Admin'),
+(N'Air', N'Admin', N'Admin')
 -- Bảng SanPham
 INSERT INTO SanPham (MaSanPham, IdThuongHieu, IdChatLieu, IdDeGiay, TenSanPham, NguoiTao, NguoiCapNhat)
 VALUES
-(N'SPURJSJP5', 1, 1, 1, N'Giày thể thao Nike Air Max', N'Admin', N'Admin'),
-(N'SP5S6FIRM', 2, 1, 1, N'Giày cao cổ Adidas Superstar', N'Admin', N'Admin'),
-(N'SPU3S6FGW', 3, 2, 2, N'Giày chạy bộ Asics Gel-Kayano', N'Admin', N'Admin'),
-(N'SPCD85FAS', 4, 1, 1, N'Giày công sở Clarks Originals', N'Admin', N'Admin'),
-(N'SPE77RDGD', 5, 1, 1, N'Giày đế vuông Gucci Horsebit', N'Admin', N'Admin'),
-(N'SPR1D4PMN', 6, 2, 1, N'Giày thể thao Puma Suede Classic', N'Admin', N'Admin'),
-(N'SPT5TDVXZ', 7, 2, 2, N'Giày sandal Birkenstock Arizona', N'Admin', N'Admin'),
-(N'SPHIY5DNV', 8, 1, 1, N'Giày lười Salvatore Ferragamo', N'Admin', N'Admin'),
-(N'SPLN6FG5S', 9, 1, 1, N'Giày boot Timberland 6-Inch Premium', N'Admin', N'Admin'),
-(N'SPO5DFPN6', 10, 2, 2, N'Giày thể thao New Balance 574', N'Admin', N'Admin'),
-(N'SPCK1P53J', 1, 2, 2, N'Giày chạy bộ Nike ZoomX', N'Admin', N'Admin'),
-(N'SPHD5YFGR', 2, 2, 2, N'Giày thể thao Adidas Ultraboost', N'Admin', N'Admin'),
-(N'SPJD6RF5S', 4, 1, 1, N'Giày công sở Geox', N'Admin', N'Admin'),
-(N'SPJK1WESG', 2, 2, 2, N'Giày cao cổ Converse All Star', N'Admin', N'Admin'),
-(N'SPQN7FDFP', 3, 2, 1, N'Giày sneaker Vans Old Skool', N'Admin', N'Admin'),
-(N'SPLM9HFGH', 6, 2, 2, N'Giày thể thao Reebok Classic', N'Admin', N'Admin'),
-(N'SPPL4DKNS', 1, 1, 1, N'Giày thể thao Saucony', N'Admin', N'Admin'),
-(N'SPOB8CND5', 8, 1, 1, N'Giày lười Sperry Top-Sider', N'Admin', N'Admin'),
-(N'SPTD6CND4', 4, 1, 1, N'Giày boot Dr. Martens 1460', N'Admin', N'Admin'),
-(N'SPBX3YFPN', 2, 2, 2, N'Giày thể thao On Cloudstratus', N'Admin', N'Admin'),
-(N'SPCA5F7PL', 3, 2, 2, N'Giày chạy bộ Mizuno Wave Rider', N'Admin', N'Admin'),
-(N'SPXY6GFFV', 1, 2, 1, N'Giày thể thao Hoka One One', N'Admin', N'Admin'),
-(N'SPTB7KNS5', 2, 1, 1, N'Giày cao cổ UGG Classic', N'Admin', N'Admin'),
-(N'SPVS4KJ5H', 3, 2, 2, N'Giày sneaker Fila Disruptor', N'Admin', N'Admin'),
-(N'SPCN3MD3B', 3, 2, 2, N'Giày thể thao Asics Gel-Quantum', N'Admin', N'Admin'),
-(N'SPNT4P4LT', 2, 2, 1, N'Giày thể thao Adidas NMD', N'Admin', N'Admin'),
-(N'SPFL1T5PX', 4, 1, 1, N'Giày lười Clarks', N'Admin', N'Admin'),
-(N'SPWT6R7BG', 7, 2, 2, N'Giày sandal Teva', N'Admin', N'Admin'),
-(N'SPTF9T3GH', 3, 1, 1, N'Giày thể thao Columbia', N'Admin', N'Admin'),
-(N'SPVL2X9JD', 1, 1, 1, N'Giày lười Dr. Scholl', N'Admin', N'Admin');
+-- Sản phẩm cho thương hiệu Nike
+(N'NIKE001', 1, 1, 1, N'Nike Air Max', N'Admin', N'Admin'),
+(N'NIKE002', 1, 2, 2, N'Nike Zoom', N'Admin', N'Admin'),
+(N'NIKE003', 1, 3, 3, N'Nike Pegasus', N'Admin', N'Admin'),
+
+-- Sản phẩm cho thương hiệu Adidas
+(N'ADIDAS001', 2, 1, 4, N'Adidas Ultraboost', N'Admin', N'Admin'),
+(N'ADIDAS002', 2, 2, 2, N'Adidas NMD', N'Admin', N'Admin'),
+(N'ADIDAS003', 2, 3, 1, N'Adidas Gazelle', N'Admin', N'Admin'),
+
+-- Sản phẩm cho thương hiệu Gucci
+(N'GUCCI001', 3, 1, 5, N'Gucci Rhyton', N'Admin', N'Admin'),
+(N'GUCCI002', 3, 2, 3, N'Gucci Ace', N'Admin', N'Admin'),
+(N'GUCCI003', 3, 3, 2, N'Gucci Screener', N'Admin', N'Admin'),
+
+-- Sản phẩm cho thương hiệu Dolce
+(N'DOLCE001', 4, 1, 2, N'Dolce Super King', N'Admin', N'Admin'),
+(N'DOLCE002', 4, 2, 1, N'Dolce NS1', N'Admin', N'Admin'),
+(N'DOLCE003', 4, 3, 4, N'Dolce Daymaster', N'Admin', N'Admin'),
+
+-- Sản phẩm cho thương hiệu Balenciaga
+(N'BALENCIAGA001', 5, 1, 3, N'Balenciaga Triple S', N'Admin', N'Admin'),
+(N'BALENCIAGA002', 5, 2, 5, N'Balenciaga Speed', N'Admin', N'Admin'),
+(N'BALENCIAGA003', 5, 3, 4, N'Balenciaga Track', N'Admin', N'Admin'),
+
+-- Sản phẩm cho thương hiệu Puma
+(N'PUMA001', 6, 1, 4, N'Puma RS-X', N'Admin', N'Admin'),
+(N'PUMA002', 6, 2, 3, N'Puma Suede', N'Admin', N'Admin'),
+(N'PUMA003', 6, 3, 2, N'Puma Cali', N'Admin', N'Admin');
+
 -- Bảng SanPhamChiTiet
 INSERT INTO SanPhamChiTiet (IdSanPham, IdKichCo, IdMauSac, IdDotGiamGia, QRCode, MaSanPhamChiTiet, SoLuong, MoTa, GiaTien, NguoiTao, NguoiCapNhat)
 VALUES
-(1, 1, 1, NULL, 'SP001CT1', N'SP001-CT1', 100, N'Giày thể thao Nike Air Max Trắng', 3500000, N'Admin', N'Admin'),
-(1, 2, 2, NULL, 'SP001CT2', N'SP001-CT2', 150, N'Giày thể thao Nike Air Max Đen', 3500000, N'Admin', N'Admin'),
-(2, 1, 1, NULL, 'SP002CT1', N'SP002-CT1', 80, N'Giày cao cổ Adidas Superstar Trắng', 2700000, N'Admin', N'Admin'),
-(2, 2, 2, NULL, 'SP002CT2', N'SP002-CT2', 60, N'Giày cao cổ Adidas Superstar Đen', 2700000, N'Admin', N'Admin'),
-(3, 1, 1, NULL, 'SP003CT1', N'SP003-CT1', 120, N'Giày chạy bộ Asics Gel-Kayano Trắng', 3000000, N'Admin', N'Admin'),
-(3, 2, 2, NULL, 'SP003CT2', N'SP003-CT2', 100, N'Giày chạy bộ Asics Gel-Kayano Đen', 3000000, N'Admin', N'Admin'),
-(4, 1, 1, NULL, 'SP004CT1', N'SP004-CT1', 90, N'Giày công sở Clarks Originals Trắng', 2500000, N'Admin', N'Admin'),
-(4, 2, 2, NULL, 'SP004CT2', N'SP004-CT2', 70, N'Giày công sở Clarks Originals Đen', 2500000, N'Admin', N'Admin'),
-(5, 1, 1, NULL, 'SP005CT1', N'SP005-CT1', 85, N'Giày đế vuông Gucci Horsebit Trắng', 4500000, N'Admin', N'Admin'),
-(5, 2, 2, NULL, 'SP005CT2', N'SP005-CT2', 75, N'Giày đế vuông Gucci Horsebit Đen', 4500000, N'Admin', N'Admin'),
-(6, 1, 1, NULL, 'SP006CT1', N'SP006-CT1', 110, N'Giày thể thao Puma Suede Classic Trắng', 2600000, N'Admin', N'Admin'),
-(6, 2, 2, NULL, 'SP006CT2', N'SP006-CT2', 95, N'Giày thể thao Puma Suede Classic Đen', 2600000, N'Admin', N'Admin'),
-(7, 1, 1, NULL, 'SP007CT1', N'SP007-CT1', 70, N'Giày sandal Birkenstock Arizona Trắng', 1800000, N'Admin', N'Admin'),
-(7, 2, 2, NULL, 'SP007CT2', N'SP007-CT2', 50, N'Giày sandal Birkenstock Arizona Đen', 1800000, N'Admin', N'Admin'),
-(8, 1, 1, NULL, 'SP008CT1', N'SP008-CT1', 60, N'Giày lười Salvatore Ferragamo Trắng', 3500000, N'Admin', N'Admin'),
-(8, 2, 2, NULL, 'SP008CT2', N'SP008-CT2', 40, N'Giày lười Salvatore Ferragamo Đen', 3500000, N'Admin', N'Admin'),
-(9, 1, 1, NULL, 'SP009CT1', N'SP009-CT1', 55, N'Giày boot Timberland 6-Inch Premium Trắng', 4000000, N'Admin', N'Admin'),
-(9, 2, 2, NULL, 'SP009CT2', N'SP009-CT2', 45, N'Giày boot Timberland 6-Inch Premium Đen', 4000000, N'Admin', N'Admin'),
-(10, 1, 1, NULL, 'SP010CT1', N'SP010-CT1', 65, N'Giày thể thao New Balance 574 Trắng', 3200000, N'Admin', N'Admin'),
-(10, 2, 2, NULL, 'SP010CT2', N'SP010-CT2', 55, N'Giày thể thao New Balance 574 Đen', 3200000, N'Admin', N'Admin'),
-(11, 1, 1, NULL, 'SP011CT1', N'SP011-CT1', 40, N'Giày chạy bộ Nike ZoomX Trắng', 3700000, N'Admin', N'Admin'),
-(11, 2, 2, NULL, 'SP011CT2', N'SP011-CT2', 30, N'Giày chạy bộ Nike ZoomX Đen', 3700000, N'Admin', N'Admin'),
-(12, 1, 1, NULL, 'SP012CT1', N'SP012-CT1', 60, N'Giày thể thao Adidas Ultraboost Trắng', 3800000, N'Admin', N'Admin'),
-(12, 2, 2, NULL, 'SP012CT2', N'SP012-CT2', 50, N'Giày thể thao Adidas Ultraboost cho nữ', 3800000, N'Admin', N'Admin');
+-- Sản phẩm chi tiết cho Nike Air Max
+(1, 1, 1, NULL, N'QR_NIKE001_35_1', N'NIKE001-35-1', 10, N'Size 35, màu Xanh dương', 3000000, N'Admin', N'Admin'),
+(1, 2, 2, NULL, N'QR_NIKE001_36_2', N'NIKE001-36-2', 15, N'Size 36, màu Cam', 3000000, N'Admin', N'Admin'),
+(1, 3, 3, NULL, N'QR_NIKE001_37_3', N'NIKE001-37-3', 20, N'Size 37, màu Đỏ', 3000000, N'Admin', N'Admin'),
+(1, 4, 4, NULL, N'QR_NIKE001_38_4', N'NIKE001-38-4', 12, N'Size 38, màu Đen', 3000000, N'Admin', N'Admin'),
+(1, 5, 5, NULL, N'QR_NIKE001_39_5', N'NIKE001-39-5', 8, N'Size 39, màu Xanh lá', 3000000, N'Admin', N'Admin'),
 
+-- Sản phẩm chi tiết cho Nike Zoom
+(2, 1, 6, NULL, N'QR_NIKE002_35_6', N'NIKE002-35-6', 10, N'Size 35, màu Turquoise', 3500000, N'Admin', N'Admin'),
+(2, 2, 7, NULL, N'QR_NIKE002_36_7', N'NIKE002-36-7', 15, N'Size 36, màu Xanh nhạt', 3500000, N'Admin', N'Admin'),
+(2, 3, 8, NULL, N'QR_NIKE002_37_8', N'NIKE002-37-8', 20, N'Size 37, màu Nâu', 3500000, N'Admin', N'Admin'),
+(2, 4, 9, NULL, N'QR_NIKE002_38_9', N'NIKE002-38-9', 12, N'Size 38, màu Hồng', 3500000, N'Admin', N'Admin'),
+(2, 5, 10, NULL, N'QR_NIKE002_39_10', N'NIKE002-39-10', 8, N'Size 39, màu Xanh navy', 3500000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Nike Pegasus
+(3, 1, 11, NULL, N'QR_NIKE003_35_11', N'NIKE003-35-11', 10, N'Size 35, màu Vàng', 3200000, N'Admin', N'Admin'),
+(3, 2, 12, NULL, N'QR_NIKE003_36_12', N'NIKE003-36-12', 15, N'Size 36, màu Xám', 3200000, N'Admin', N'Admin'),
+(3, 3, 13, NULL, N'QR_NIKE003_37_13', N'NIKE003-37-13', 20, N'Size 37, màu Trắng', 3200000, N'Admin', N'Admin'),
+(3, 4, 14, NULL, N'QR_NIKE003_38_14', N'NIKE003-38-14', 12, N'Size 38, màu Kem', 3200000, N'Admin', N'Admin'),
+(3, 5, 15, NULL, N'QR_NIKE003_39_15', N'NIKE003-39-15', 8, N'Size 39, màu Bạc', 3200000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Adidas Ultraboost
+(4, 1, 1, NULL, N'QR_ADIDAS001_35_1', N'ADIDAS001-35-1', 10, N'Size 35, màu Xanh dương', 4000000, N'Admin', N'Admin'),
+(4, 2, 2, NULL, N'QR_ADIDAS001_36_2', N'ADIDAS001-36-2', 15, N'Size 36, màu Cam', 4000000, N'Admin', N'Admin'),
+(4, 3, 3, NULL, N'QR_ADIDAS001_37_3', N'ADIDAS001-37-3', 20, N'Size 37, màu Đỏ', 4000000, N'Admin', N'Admin'),
+(4, 4, 4, NULL, N'QR_ADIDAS001_38_4', N'ADIDAS001-38-4', 12, N'Size 38, màu Đen', 4000000, N'Admin', N'Admin'),
+(4, 5, 5, NULL, N'QR_ADIDAS001_39_5', N'ADIDAS001-39-5', 8, N'Size 39, màu Xanh lá', 4000000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Gucci Rhyton
+(7, 1, 6, NULL, N'QR_GUCCI001_35_6', N'GUCCI001-35-6', 10, N'Size 35, màu Turquoise', 1500000, N'Admin', N'Admin'),
+(7, 2, 7, NULL, N'QR_GUCCI001_36_7', N'GUCCI001-36-7', 12, N'Size 36, màu Xanh nhạt', 1500000, N'Admin', N'Admin'),
+(7, 3, 8, NULL, N'QR_GUCCI001_37_8', N'GUCCI001-37-8', 8, N'Size 37, màu Nâu', 1500000, N'Admin', N'Admin'),
+(7, 4, 9, NULL, N'QR_GUCCI001_38_9', N'GUCCI001-38-9', 15, N'Size 38, màu Hồng', 1500000, N'Admin', N'Admin'),
+(7, 5, 10, NULL, N'QR_GUCCI001_39_10', N'GUCCI001-39-10', 10, N'Size 39, màu Xanh navy', 1500000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Gucci Ace
+(8, 1, 11, NULL, N'QR_GUCCI002_35_11', N'GUCCI002-35-11', 10, N'Size 35, màu Vàng', 1300000, N'Admin', N'Admin'),
+(8, 2, 12, NULL, N'QR_GUCCI002_36_12', N'GUCCI002-36-12', 12, N'Size 36, màu Xám', 1300000, N'Admin', N'Admin'),
+(8, 3, 13, NULL, N'QR_GUCCI002_37_13', N'GUCCI002-37-13', 8, N'Size 37, màu Trắng', 1300000, N'Admin', N'Admin'),
+(8, 4, 14, NULL, N'QR_GUCCI002_38_14', N'GUCCI002-38-14', 15, N'Size 38, màu Kem', 1300000, N'Admin', N'Admin'),
+(8, 5, 15, NULL, N'QR_GUCCI002_39_15', N'GUCCI002-39-15', 10, N'Size 39, màu Bạc', 1300000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Gucci Screener
+(9, 1, 1, NULL, N'QR_GUCCI003_35_1', N'GUCCI003-35-1', 10, N'Size 35, màu Xanh dương', 1400000, N'Admin', N'Admin'),
+(9, 2, 2, NULL, N'QR_GUCCI003_36_2', N'GUCCI003-36-2', 12, N'Size 36, màu Cam', 1400000, N'Admin', N'Admin'),
+(9, 3, 3, NULL, N'QR_GUCCI003_37_3', N'GUCCI003-37-3', 8, N'Size 37, màu Đỏ', 1400000, N'Admin', N'Admin'),
+(9, 4, 4, NULL, N'QR_GUCCI003_38_4', N'GUCCI003-38-4', 15, N'Size 38, màu Đen', 1400000, N'Admin', N'Admin'),
+(9, 5, 5, NULL, N'QR_GUCCI003_39_5', N'GUCCI003-39-5', 10, N'Size 39, màu Xanh lá', 1400000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Dolce Super King
+(10, 1, 6, NULL, N'QR_DOLCE001_35_6', N'DOLCE001-35-6', 12, N'Size 35, màu Turquoise', 1200000, N'Admin', N'Admin'),
+(10, 2, 7, NULL, N'QR_DOLCE001_36_7', N'DOLCE001-36-7', 8, N'Size 36, màu Xanh nhạt', 1200000, N'Admin', N'Admin'),
+(10, 3, 8, NULL, N'QR_DOLCE001_37_8', N'DOLCE001-37-8', 15, N'Size 37, màu Nâu', 1200000, N'Admin', N'Admin'),
+(10, 4, 9, NULL, N'QR_DOLCE001_38_9', N'DOLCE001-38-9', 10, N'Size 38, màu Hồng', 1200000, N'Admin', N'Admin'),
+(10, 5, 10, NULL, N'QR_DOLCE001_39_10', N'DOLCE001-39-10', 12, N'Size 39, màu Xanh navy', 1200000, N'Admin', N'Admin'),
+-- Sản phẩm chi tiết cho Balenciaga Triple S
+(13, 1, 1, NULL, N'QR_BALENCIAGA001_35_1', N'BALENCIAGA001-35-1', 10, N'Size 35, màu Xanh dương', 1800000, N'Admin', N'Admin'),
+(13, 2, 2, NULL, N'QR_BALENCIAGA001_36_2', N'BALENCIAGA001-36-2', 8, N'Size 36, màu Cam', 1800000, N'Admin', N'Admin'),
+(13, 3, 3, NULL, N'QR_BALENCIAGA001_37_3', N'BALENCIAGA001-37-3', 12, N'Size 37, màu Đỏ', 1800000, N'Admin', N'Admin'),
+(13, 4, 4, NULL, N'QR_BALENCIAGA001_38_4', N'BALENCIAGA001-38-4', 10, N'Size 38, màu Đen', 1800000, N'Admin', N'Admin'),
+(13, 5, 5, NULL, N'QR_BALENCIAGA001_39_5', N'BALENCIAGA001-39-5', 15, N'Size 39, màu Xanh lá', 1800000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Balenciaga Speed
+(14, 1, 6, NULL, N'QR_BALENCIAGA002_35_6', N'BALENCIAGA002-35-6', 12, N'Size 35, màu Turquoise', 1500000, N'Admin', N'Admin'),
+(14, 2, 7, NULL, N'QR_BALENCIAGA002_36_7', N'BALENCIAGA002-36-7', 8, N'Size 36, màu Xanh nhạt', 1500000, N'Admin', N'Admin'),
+(14, 3, 8, NULL, N'QR_BALENCIAGA002_37_8', N'BALENCIAGA002-37-8', 10, N'Size 37, màu Nâu', 1500000, N'Admin', N'Admin'),
+(14, 4, 9, NULL, N'QR_BALENCIAGA002_38_9', N'BALENCIAGA002-38-9', 15, N'Size 38, màu Hồng', 1500000, N'Admin', N'Admin'),
+(14, 5, 10, NULL, N'QR_BALENCIAGA002_39_10', N'BALENCIAGA002-39-10', 10, N'Size 39, màu Xanh navy', 1500000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Balenciaga Track
+(15, 1, 11, NULL, N'QR_BALENCIAGA003_35_11', N'BALENCIAGA003-35-11', 8, N'Size 35, màu Vàng', 1700000, N'Admin', N'Admin'),
+(15, 2, 12, NULL, N'QR_BALENCIAGA003_36_12', N'BALENCIAGA003-36-12', 12, N'Size 36, màu Xám', 1700000, N'Admin', N'Admin'),
+(15, 3, 13, NULL, N'QR_BALENCIAGA003_37_13', N'BALENCIAGA003-37-13', 15, N'Size 37, màu Trắng', 1700000, N'Admin', N'Admin'),
+(15, 4, 14, NULL, N'QR_BALENCIAGA003_38_14', N'BALENCIAGA003-38-14', 10, N'Size 38, màu Kem', 1700000, N'Admin', N'Admin'),
+(15, 5, 15, NULL, N'QR_BALENCIAGA003_39_15', N'BALENCIAGA003-39-15', 10, N'Size 39, màu Bạc', 1700000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Puma RS-X
+(16, 1, 1, NULL, N'QR_PUMA001_35_1', N'PUMA001-35-1', 10, N'Size 35, màu Xanh dương', 350000, N'Admin', N'Admin'),
+(16, 2, 2, NULL, N'QR_PUMA001_36_2', N'PUMA001-36-2', 12, N'Size 36, màu Cam', 350000, N'Admin', N'Admin'),
+(16, 3, 3, NULL, N'QR_PUMA001_37_3', N'PUMA001-37-3', 8, N'Size 37, màu Đỏ', 350000, N'Admin', N'Admin'),
+(16, 4, 4, NULL, N'QR_PUMA001_38_4', N'PUMA001-38-4', 15, N'Size 38, màu Đen', 350000, N'Admin', N'Admin'),
+(16, 5, 5, NULL, N'QR_PUMA001_39_5', N'PUMA001-39-5', 10, N'Size 39, màu Xanh lá', 350000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Puma Suede
+(17, 1, 6, NULL, N'QR_PUMA002_35_6', N'PUMA002-35-6', 12, N'Size 35, màu Turquoise', 330000, N'Admin', N'Admin'),
+(17, 2, 7, NULL, N'QR_PUMA002_36_7', N'PUMA002-36-7', 8, N'Size 36, màu Xanh nhạt', 330000, N'Admin', N'Admin'),
+(17, 3, 8, NULL, N'QR_PUMA002_37_8', N'PUMA002-37-8', 10, N'Size 37, màu Nâu', 330000, N'Admin', N'Admin'),
+(17, 4, 9, NULL, N'QR_PUMA002_38_9', N'PUMA002-38-9', 15, N'Size 38, màu Hồng', 330000, N'Admin', N'Admin'),
+(17, 5, 10, NULL, N'QR_PUMA002_39_10', N'PUMA002-39-10', 10, N'Size 39, màu Xanh navy', 330000, N'Admin', N'Admin'),
+
+-- Sản phẩm chi tiết cho Puma Cali
+(18, 1, 11, NULL, N'QR_PUMA003_35_11', N'PUMA003-35-11', 10, N'Size 35, màu Vàng', 340000, N'Admin', N'Admin'),
+(18, 2, 12, NULL, N'QR_PUMA003_36_12', N'PUMA003-36-12', 8, N'Size 36, màu Xám', 340000, N'Admin', N'Admin'),
+(18, 3, 13, NULL, N'QR_PUMA003_37_13', N'PUMA003-37-13', 12, N'Size 37, màu Trắng', 340000, N'Admin', N'Admin'),
+(18, 4, 14, NULL, N'QR_PUMA003_38_14', N'PUMA003-38-14', 15, N'Size 38, màu Kem', 340000, N'Admin', N'Admin'),
+(18, 5, 15, NULL, N'QR_PUMA003_39_15', N'PUMA003-39-15', 10, N'Size 39, màu Bạc', 340000, N'Admin', N'Admin');
 
 -- Bảng HoaDon
 INSERT INTO HoaDon (IdNhanVien, IdKhachHang, TenKhachHang, SoDienThoai, Mahoadon, DiaChi, Email, TongTien, NgayXacNhan, NgayVanChuyen, LoaiHoaDon, PhiVanChuyen, NguoiTao, NguoiCapNhat, GhiChu,TrangThai)
 VALUES
-(1, 1, 'Nguyễn Văn Nam', '0909123456', 'HD20231011', 'Trần Hưng Đạo, Tây Sơn, Hoa Lư, Ninh Bình', 'namnv1@gmail.com', 500000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 1', 1),
-(2, 2, 'Lê Ánh Ngọc', '0912345678', 'HD20231012', 'Phan Đình Phùng, Thạch Trung, Hải Châu, Đà Nẵng', 'ngocla2@gmail.com', 600000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 2', 1),
-(1, 3, 'Trần Quốc Nghĩa', '0923456789', 'HD20231013', 'Nguyễn Thái Học, Phú Thượng, Tây Hồ, Hà Nội', 'nghiatq3@gmail.com', 700000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 3', 1),
-(2, 4, 'Nguyễn Phúc Long', '0934567890', 'HD20231014', 'Đường 3/2, Phường 2, Tân Bình, TP.HCM', 'longnp4@gmail.com', 800000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 4', 1),
-(1, 5, 'Kiều Khánh Huyền', '0945678901', 'HD20231015', 'Nguyễn Hữu Cảnh, Phú Hữu, Nhà Bè, TP.HCM', 'huyenkh5@gmail.com', 900000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 5', 1),
-(2, 6, 'Nguyễn Thùy Linh', '0956789012', 'HD20231016', 'Trần Não, Bình An, Thủ Đức, TP.HCM', 'linhnt6@gmail.com', 1000000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 6', 1),
-(1, 7, 'Bùi Huyền Anh', '0967890123', 'HD20231017', 'Phạm Hữu Lầu, Đa Kao, Quận 1, TP.HCM', 'anhbh7@gmail.com', 1100000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 7', 1),
-(2, 8, 'Đặng Phương Thảo', '0978901234', 'HD20231018', 'Hồng Bàng, An Hải Bắc, Sơn Trà, Đà Nẵng', 'thaodpt8@gmail.com', 1200000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 8', 1),
-(1, 9, 'Lê Hải Đăng', '0989012345', 'HD20231019', 'Hà Huy Tập, An Khê, Tam Kỳ, Quảng Nam', 'danghd9@gmail.com', 1300000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 9', 1),
-(2, 10, 'Phùng Thanh Hiền', '0990123456', 'HD20231020', 'Quang Trung, Thường Định, Thành phố Thái Bình, Thái Bình', 'hienpt10@gmail.com', 1400000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 10', 1),
-(1, 11, 'Nguyễn Anh Vũ', '0910112233', 'HD20231021', 'Nguyễn Đình Chiểu, Gia Quất, Thuận Thành, Bắc Ninh', 'vuna11@gmail.com', 1500000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 11', 1),
-(2, 12, 'Vũ Thùy Tiên', '0911223344', 'HD20231022', 'Lê Lợi, Phú Thượng, Tây Hồ, Hà Nội', 'tienvt12@gmail.com', 1600000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 12', 1),
-(1, 13, 'Lê Phương Anh', '0912334455', 'HD20231023', 'Hà Bổng, Gia Huynh, Hương Khê, Hà Tĩnh', 'anhpa13@gmail.com', 1700000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 13', 1),
-(2, 14, 'Nguyễn Thị Thùy Linh', '0913445566', 'HD20231024', 'Tôn Đức Thắng, Tân Hưng, Tân Bình, TP.HCM', 'linhnt14@gmail.com', 1800000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 14', 1),
-(1, 15, 'Đỗ Ánh Dương', '0914556677', 'HD20231025', 'Hòa Hảo, Hòa An, Phú Nhuận, TP.HCM', 'duongad15@gmail.com', 1900000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 15', 1),
-(2, 16, 'Nguyễn Thúy Hằng', '0915667788', 'HD20231026', 'Nguyễn Văn Cừ, Mỹ Đình, Thành phố Hải Phòng, Hải Phòng', 'hangnt16@gmail.com', 2000000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 16', 1),
-(1, 17, 'Nguyễn Anh Dũng', '0916778899', 'HD20231027', 'Phạm Văn Đồng, Phú Đô, Nam Từ Liêm, Hà Nội', 'dungna17@gmail.com', 2100000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 17', 1),
-(2, 18, 'Vũ Văn Nguyên', '0917889900', 'HD20231028', 'Trần Đại Nghĩa, Đại Kim, Hoàng Mai, Hà Nội', 'nguyenvv18@gmail.com', 2200000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 18', 1),
-(1, 19, 'Hoàng Công Vinh', '0918990011', 'HD20231029', 'Lê Văn Lương, Tân Hưng, Tân Bình, TP.HCM', 'vinhhc19@gmail.com', 2300000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 19', 1),
-(2, 20, 'Bạch Văn Sơn', '0919001122', 'HD20231030', 'Nguyễn Trãi, Hương Tích, Can Lộc, Hà Tĩnh', 'sonbv20@gmail.com', 2400000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 20', 1);
+(1, 1, N'Nguyễn Văn Nam', '0909123456', 'HD20231011', 'Trần Hưng Đạo, Tây Sơn, Hoa Lư, Ninh Bình', 'namnv1@gmail.com', 500000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 1', 1),
+(2, 2, N'Lê Ánh Ngọc', '0912345678', 'HD20231012', 'Phan Đình Phùng, Thạch Trung, Hải Châu, Đà Nẵng', 'ngocla2@gmail.com', 600000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 2', 2),
+(1, 3, N'Trần Quốc Nghĩa', '0923456789', 'HD20231013', 'Nguyễn Thái Học, Phú Thượng, Tây Hồ, Hà Nội', 'nghiatq3@gmail.com', 700000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 3', 3),
+(2, 4, N'Nguyễn Phúc Long', '0934567890', 'HD20231014', 'Đường 3/2, Phường 2, Tân Bình, TP.HCM', 'longnp4@gmail.com', 800000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 4', 4),
+(1, 5, N'Kiều Khánh Huyền', '0945678901', 'HD20231015', 'Nguyễn Hữu Cảnh, Phú Hữu, Nhà Bè, TP.HCM', 'huyenkh5@gmail.com', 900000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 5', 5),
+(2, 6, N'Nguyễn Thùy Linh', '0956789012', 'HD20231016', 'Trần Não, Bình An, Thủ Đức, TP.HCM', 'linhnt6@gmail.com', 1000000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 6', 1),
+(1, 7, N'Bùi Huyền Anh', '0967890123', 'HD20231017', 'Phạm Hữu Lầu, Đa Kao, Quận 1, TP.HCM', 'anhbh7@gmail.com', 1100000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 7', 2),
+(2, 8, N'Đặng Phương Thảo', '0978901234', 'HD20231018', 'Hồng Bàng, An Hải Bắc, Sơn Trà, Đà Nẵng', 'thaodpt8@gmail.com', 1200000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 8', 3),
+(1, 9, N'Lê Hải Đăng', '0989012345', 'HD20231019', 'Hà Huy Tập, An Khê, Tam Kỳ, Quảng Nam', 'danghd9@gmail.com', 1300000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 9', 4),
+(2, 10, N'Phùng Thanh Hiền', '0990123456', 'HD20231020', 'Quang Trung, Thường Định, Thành phố Thái Bình, Thái Bình', 'hienpt10@gmail.com', 1400000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 10', 5),
+(1, 11, N'Nguyễn Anh Vũ', '0910112233', 'HD20231021', 'Nguyễn Đình Chiểu, Gia Quất, Thuận Thành, Bắc Ninh', 'vuna11@gmail.com', 1500000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 11', 1),
+(2, 12, N'Vũ Thùy Tiên', '0911223344', 'HD20231022', 'Lê Lợi, Phú Thượng, Tây Hồ, Hà Nội', 'tienvt12@gmail.com', 1600000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 12', 2),
+(1, 13, N'Lê Phương Anh', '0912334455', 'HD20231023', 'Hà Bổng, Gia Huynh, Hương Khê, Hà Tĩnh', 'anhpa13@gmail.com', 1700000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 13', 3),
+(2, 14, N'Nguyễn Thị Thùy Linh', '0913445566', 'HD20231024', 'Tôn Đức Thắng, Tân Hưng, Tân Bình, TP.HCM', 'linhnt14@gmail.com', 1800000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 14', 4),
+(1, 15, N'Đỗ Ánh Dương', '0914556677', 'HD20231025', 'Hòa Hảo, Hòa An, Phú Nhuận, TP.HCM', 'duongad15@gmail.com', 1900000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 15', 5),
+(2, 16, N'Nguyễn Thúy Hằng', '0915667788', 'HD20231026', 'Nguyễn Văn Cừ, Mỹ Đình, Thành phố Hải Phòng, Hải Phòng', 'hangnt16@gmail.com', 2000000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 16', 1),
+(1, 17, N'Nguyễn Anh Dũng', '0916778899', 'HD20231027', 'Phạm Văn Đồng, Phú Đô, Nam Từ Liêm, Hà Nội', 'dungna17@gmail.com', 2100000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 17', 2),
+(2, 18, N'Vũ Văn Nguyên', '0917889900', 'HD20231028', 'Trần Đại Nghĩa, Đại Kim, Hoàng Mai, Hà Nội', 'nguyenvv18@gmail.com', 2200000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 18', 3),
+(1, 19, N'Hoàng Công Vinh', '0918990011', 'HD20231029', 'Lê Văn Lương, Tân Hưng, Tân Bình, TP.HCM', 'vinhhc19@gmail.com', 2300000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 19', 4),
+(2, 20, N'Bạch Văn Sơn', '0919001122', 'HD20231030', 'Nguyễn Trãi, Hương Tích, Can Lộc, Hà Tĩnh', 'sonbv20@gmail.com', 2400000, GETDATE(), NULL, 1, 30000, 'Admin', 'Admin', 'Ghi chú hóa đơn 20', 5);
 
 --Bảng HoaDonChiTiet
 INSERT INTO HoaDonChiTiet (IdHoaDon, IdSanPhamChiTiet, GiaSanPham, SoLuong, GhiChu,TrangThai)
@@ -581,33 +627,14 @@ VALUES
 (15, 16, 1900000, 1, NULL, 1), -- Tổng: 1900000
 (16, 17, 2000000, 1, NULL, 1), -- Tổng: 2000000
 (17, 18, 2100000, 1, NULL, 1), -- Tổng: 2100000
-(18, 19, 2200000, 1, NULL, 1), -- Tổng: 2200000
-(19, 20, 2300000, 1, NULL, 1), -- Tổng: 2300000
-(20, 21, 2400000, 1, NULL, 1); -- Tổng: 2400000
+(18, 19, 2200000, 1, NULL, 1) -- Tổng: 2200000
 
 -- Bảng PhieuGiamGia
 INSERT INTO PhieuGiamGia (IdHoaDon, MaCode, TenPhieu, GiaTriGiamToiDa, GiaTriGiam, DonToiThieu, SoLuong, LoaiPhieu, KieuPhieu, NgayBatDau, NgayKetThuc, NguoiTao, NguoiCapNhat, TrangThai)
 VALUES
-(1, 'PGG001', N'Giảm 10%', 50000, 10, 100000, 100, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(2, 'PGG002', N'Giảm 20%', 100000, 20, 200000, 50, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(3, 'PGG003', N'Giảm 15%', 70000, 15, 150000, 80, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(4, 'PGG004', N'Giảm 5%', 30000, 5, 50000, 200, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(5, 'PGG005', N'Giảm 25%', 120000, 25, 250000, 30, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(6, 'PGG006', N'Giảm 30%', 150000, 30, 300000, 20, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(7, 'PGG007', N'Giảm 50%', 200000, 50, 500000, 10, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(8, 'PGG008', N'Giảm 40%', 100000, 40, 400000, 15, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(9, 'PGG009', N'Giảm 12%', 60000, 12, 120000, 75, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(10, 'PGG010', N'Giảm 18%', 90000, 18, 180000, 40, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(11, 'PGG011', N'Giảm 22%', 110000, 22, 220000, 35, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(12, 'PGG012', N'Giảm 8%', 40000, 8, 80000, 150, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(13, 'PGG013', N'Giảm 28%', 130000, 28, 280000, 25, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(14, 'PGG014', N'Giảm 3%', 15000, 3, 30000, 250, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(15, 'PGG015', N'Giảm 35%', 160000, 35, 350000, 18, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(16, 'PGG016', N'Giảm 7%', 35000, 7, 70000, 180, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(17, 'PGG017', N'Giảm 23%', 110000, 23, 230000, 27, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(18, 'PGG018', N'Giảm 17%', 85000, 17, 170000, 45, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(19, 'PGG019', N'Giảm 13%', 65000, 13, 130000, 65, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
-(20, 'PGG020', N'Giảm 21%', 105000, 21, 210000, 33, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1);
+(1, 'PGG001', N'Giảm 10%', 500000, 10, 100000, 100, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
+(2, 'PGG002', N'Giảm 20%', 1000000, 20, 200000, 50, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1),
+(3, 'PGG003', N'Giảm 15%', 700000, 15, 150000, 80, 0, 0, '2024-01-01', '2024-12-31', 'Admin', 'Admin', 1)
 
 -- Bảng GioHang
 INSERT INTO GioHang (IdKhachHang, IdSanPhamChiTiet)

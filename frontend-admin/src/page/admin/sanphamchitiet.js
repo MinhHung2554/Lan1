@@ -58,19 +58,28 @@ const AdminSanPhamChiTiet = ()=>{
 
 
     async function deleteChiTiet(id){
-        var con = window.confirm("Confirm?");
-        if (con == false) {
-            return;
-        }
-        const response = await deleteMethod('/api/san-pham-chi-tiet/' + id)
-        if (response.status < 300) {
-            toast.success("Xóa thành công!");
-            getChiTietSanPham();
-        }
-        if (response.status > 300) {
-            var result = await response.json()
-            toast.warning(result.message);
-        }
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa chi tiết sản phẩm này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+            reverseButtons: true,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await deleteMethod('/api/san-pham-chi-tiet/' + id);
+                if (response.status < 300) {
+                    toast.success("Xóa thành công!");
+                    getChiTietSanPham();
+                } else if (response.status > 300) {
+                    const result = await response.json();
+                    toast.warning(result.message);
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("Hủy thao tác xóa.");
+            }
+        });
     }
 
     async function saveData(event) {
@@ -83,7 +92,7 @@ const AdminSanPhamChiTiet = ()=>{
             idSanPham: sanpham.id,
             idKichCo: selectedKichCo.id,
             idMauSac: selectedMauSac.id,
-            trangThai: event.target.elements.trangThai.value,
+            //trangThai: event.target.elements.trangThai.value,
             nguoiTao: user.maNhanVien,
             nguoiCapNhat: user.maNhanVien,
             trangThai: 1,

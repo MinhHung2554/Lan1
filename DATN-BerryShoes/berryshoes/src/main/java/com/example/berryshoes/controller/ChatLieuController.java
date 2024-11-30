@@ -1,10 +1,15 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.repository.ChatLieuRepository;
 import com.example.berryshoes.service.ChatLieuService;
 import com.example.berryshoes.dto.request.ChatLieuRequest;
 import com.example.berryshoes.dto.response.ChatLieuResponse;
 import com.example.berryshoes.entity.ChatLieu;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +22,32 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ChatLieuController {
     private final ChatLieuService chatLieuService;
+    private final ChatLieuRepository chatLieuRepository;
 
+    public void validateChatLieu(ChatLieuRequest requestDTO) {
+        // Kiểm tra tên chất liệu không được trống
+        if (requestDTO.getTenChatLieu() == null || requestDTO.getTenChatLieu().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên chất liệu không được trống");
+        }
+
+        // Kiểm tra độ dài tên chất liệu không quá 255 ký tự
+        if (requestDTO.getTenChatLieu().length() > 255) {
+            throw new IllegalArgumentException("Tên chất liệu quá dài");
+        }
+
+        // Kiểm tra trùng lặp tên chất liệu
+        if (chatLieuService.existsByTenChatLieu(requestDTO.getTenChatLieu())) {
+            throw new IllegalArgumentException("Tên chất liệu đã tồn tại");
+        }
+    }
     // Lấy tất cả chất liệu
     @GetMapping
-    public ResponseEntity<List<ChatLieuResponse>> getAllChatLieu() {
-        List<ChatLieu> chatLieuList = chatLieuService.getAllChatLieu();
-        List<ChatLieuResponse> responseList = chatLieuList.stream().map(chatLieu -> {
+    public ResponseEntity<Page<ChatLieuResponse>> getAllChatLieu(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<ChatLieu> chatLieuPage = chatLieuService.getAllChatLieuPaginated(page, size);
+        Page<ChatLieuResponse> responsePage = chatLieuPage.map(chatLieu -> {
             ChatLieuResponse response = new ChatLieuResponse();
             response.setId(chatLieu.getId());
             response.setTenChatLieu(chatLieu.getTenChatLieu());
@@ -32,8 +57,9 @@ public class ChatLieuController {
             response.setNguoiCapNhat(chatLieu.getNguoiCapNhat());
             response.setTrangThai(chatLieu.getTrangThai());
             return response;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(responseList);
+        });
+
+        return ResponseEntity.ok(responsePage);
     }
 
     // Lấy chất liệu theo ID
@@ -56,6 +82,7 @@ public class ChatLieuController {
     // Tạo mới chất liệu
     @PostMapping
     public ResponseEntity<ChatLieuResponse> createChatLieu(@RequestBody ChatLieuRequest requestDTO) {
+        validateChatLieu(requestDTO);
         ChatLieu createdChatLieu = chatLieuService.createChatLieu(requestDTO);
         ChatLieuResponse response = new ChatLieuResponse();
         response.setId(createdChatLieu.getId());

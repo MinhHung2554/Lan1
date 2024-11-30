@@ -1,11 +1,17 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.dto.request.DeGiayRequest;
+import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.repository.KichCoRepository;
 import com.example.berryshoes.service.KichCoService;
 import com.example.berryshoes.dto.request.KichCoRequest;
 import com.example.berryshoes.dto.response.KichCoResponse;
 import com.example.berryshoes.entity.KichCo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +25,32 @@ import java.util.stream.Collectors;
 public class KichCoController {
     @Autowired
     private KichCoService kichCoService;
+    @Autowired
+    private KichCoRepository kichCoRepository;
 
+    public void validateKichCo(KichCoRequest requestDTO) {
+        if (requestDTO.getTenKichCo() == null || requestDTO.getTenKichCo().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên đế giày không được trống");
+        }
+
+        try {
+            // Chuyển đổi chuỗi sang số nguyên
+            int kichCo = Integer.parseInt(requestDTO.getTenKichCo().trim());
+
+            // Kiểm tra phạm vi hợp lệ
+            if (kichCo < 35 || kichCo > 45) {
+                throw new IllegalArgumentException("Kích cỡ phải nằm trong khoảng từ 35 đến 45");
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp không phải là số nguyên
+            throw new IllegalArgumentException("Kích cỡ phải là số nguyên");
+        }
+
+        // Kiểm tra trùng lặp (nếu cần)
+        if (kichCoService.existsByTenKichCo(requestDTO.getTenKichCo())) {
+            throw new IllegalArgumentException("Tên kích cỡ đã tồn tại");
+        }
+    }
     // Lấy tất cả kích cỡ
     @GetMapping
     public ResponseEntity<List<KichCoResponse>> getAllKichCo() {
@@ -54,10 +85,21 @@ public class KichCoController {
             return ResponseEntity.ok(response);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<KichCo> page = null;
+        if(trangthai == null){
+            page = kichCoRepository.findAll(pageable);
+        }
+        else{
+            page = kichCoRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
     // Tạo mới kích cỡ
     @PostMapping
     public ResponseEntity<KichCoResponse> createKichCo(@RequestBody KichCoRequest requestDTO) {
+        validateKichCo(requestDTO);
         KichCo createdKichCo = kichCoService.createKichCo(requestDTO);
         KichCoResponse response = new KichCoResponse();
         response.setId(createdKichCo.getId());

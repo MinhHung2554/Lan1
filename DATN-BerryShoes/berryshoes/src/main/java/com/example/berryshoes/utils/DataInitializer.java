@@ -31,16 +31,16 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        List<KhachHang> kh = khachHangRepository.findAll();
-//        List<NhanVien> nv = nhanVienRepository.findAll();
-//        for (KhachHang k : kh){
-//            k.setMatKhau(passwordEncoder.encode("123"));
-//        }
-//        for (NhanVien k : nv){
-//            k.setMatKhau(passwordEncoder.encode("123"));
-//        }
-//        khachHangRepository.saveAll(kh);
-//        nhanVienRepository.saveAll(nv);
+        List<KhachHang> kh = khachHangRepository.findAll();
+        List<NhanVien> nv = nhanVienRepository.findAll();
+        for (KhachHang k : kh){
+            k.setMatKhau(passwordEncoder.encode("123"));
+        }
+        for (NhanVien k : nv){
+            k.setMatKhau(passwordEncoder.encode("123"));
+        }
+        khachHangRepository.saveAll(kh);
+        nhanVienRepository.saveAll(nv);
     }
 }
 

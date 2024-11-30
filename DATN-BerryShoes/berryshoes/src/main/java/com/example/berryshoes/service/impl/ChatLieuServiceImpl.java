@@ -5,6 +5,9 @@ import com.example.berryshoes.entity.ChatLieu;
 import com.example.berryshoes.repository.ChatLieuRepository;
 import com.example.berryshoes.service.ChatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,5 +68,11 @@ public class ChatLieuServiceImpl implements ChatLieuService {
     @Override
     public boolean existsByTenChatLieu(String tenChatLieu) {
         return chatLieuRepository.existsByTenChatLieu(tenChatLieu);
+    }
+
+    // Hàm lấy danh sách chất liệu với phân trang
+    public Page<ChatLieu> getAllChatLieuPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return chatLieuRepository.findAll(pageable);
     }
 }

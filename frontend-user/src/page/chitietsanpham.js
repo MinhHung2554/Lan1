@@ -7,6 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { getMethod ,uploadSingleFile, uploadMultipleFile, postMethodPayload} from '../services/request';
 import { formatMoney} from '../services/money';
 import {toast } from 'react-toastify';
+import { colors } from '@mui/material';
 
 function ChiTietSanPham(){
     const [product, setProduct] = useState(null);
@@ -18,6 +19,8 @@ function ChiTietSanPham(){
     const [mausac, setMauSac] = useState([]);
     const [anhs, setAnhs] = useState([]);
     const [sanPhamLienQuan, setsanPhamLienQuan] = useState([]);
+    const [giaTien, setGiaTien] = useState('');
+    const [productAnh, setProductAnh] = useState('');
     
     useEffect(()=>{
         getProduct();
@@ -31,6 +34,7 @@ function ChiTietSanPham(){
         if(id != null){
             var response = await getMethod('/api/san-pham/' + id);
             var result = await response.json();
+            
             setProduct(result)
         }
     };
@@ -41,6 +45,15 @@ function ChiTietSanPham(){
         if(id != null){
             var response = await getMethod('/api/san-pham/san-pham-lien-quan?id=' + id);
             var result = await response.json();
+            var responseLq = await getMethod('/api/san-pham-chi-tiet/findBySanPham?sanpham='+id);
+            var resultLq = await responseLq.json();
+            if (resultLq.length > 0) {
+                const minGiaTien = Math.min(...resultLq.map(item => item.giaTien));
+                result = result.map(item => ({
+                    ...item,
+                    giaBan: minGiaTien
+                }));
+            }
             setsanPhamLienQuan(result)
         }
     };
@@ -51,6 +64,11 @@ function ChiTietSanPham(){
         var response = await getMethod('/api/san-pham-chi-tiet/findBySanPham?sanpham='+id);
         var result = await response.json();
         setSanPhamChiTiet(result)
+        if (result.length > 0) {
+            const minGiaTien = Math.min(...result.map(item => item.giaTien));
+            setGiaTien(minGiaTien);
+        }
+        
         var listmausac = []
         var listAnh = []
         for(var i=0; i< result.length; i++){
@@ -67,10 +85,14 @@ function ChiTietSanPham(){
         }
         setMauSac(listmausac)
         setAnhs(listAnh)
+        if (listAnh.length > 0) {
+            setProductAnh(listAnh[0].tenAnh);
+        }
         
     }
 
     function loadKichThuoc(item, index){
+        setGiaTien(item.giaTien)
         setIndexmausac(index)
         var listkichthuoc = []
         for(var i=0; i< sanPhamChiTiet.length; i++){
@@ -80,6 +102,7 @@ function ChiTietSanPham(){
         }
         setKichthuoc(listkichthuoc)
         setindexkichthuoc(-1)
+        
         setSelectChiTiet(null)
     }
 
@@ -106,13 +129,12 @@ function ChiTietSanPham(){
             <div class="bgwhite">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h4 class="pronamedetail" id="detailnamepro">{product?.tenSanPham}</h4>
                             <div class="row">
                                 <div class="col-sm-7">
                                     <div id="carouselExampleControls" class="carousel slide bannerindex" data-bs-ride="carousel">
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
-                                                <img src={product?.anh} class="d-block w-100" alt="..."/>
+                                                <img src={productAnh} class="d-block w-100" alt="..."/>
                                             </div>
                                             {anhs.map((item, index) => {
                                             return <div class="carousel-item">
@@ -129,15 +151,16 @@ function ChiTietSanPham(){
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
+                                <h4 class="pronamedetail" id="detailnamepro">{product?.tenSanPham}</h4>
                                     <div>
-                                        <strong class="newpricestr" id="pricedetail">{formatMoney(product?.giaBan)}</strong>
+                                        <strong class="newpricestr" id="pricedetail" style={{color: 'red'}}>{formatMoney(giaTien)}</strong>
                                     </div>
                                     <span id="storagedetaillable" class="storagedetaillable">Lựa chọn màu sắc</span>
                                     <div class="listsize row" id="listcolor">
                                     {mausac.map((item, index) => {
                                         const divClass = `${'colorcdiv'} ${index === indexmausac ? 'activecolor' : ''}`;
                                         return (
-                                            <div className="col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
+                                            <div className="col-lg-2 col-md-3 col-sm-6 col-6 mb-3" key={index}>
                                             <div className={divClass} onClick={() => loadKichThuoc(item,index)}>
                                                 <span className="storagedetail">{item.mauSac.tenMauSac}</span><br/>
                                             </div>
@@ -150,15 +173,19 @@ function ChiTietSanPham(){
                                     {kichthuoc.map((item, index) => {
                                         const divClass = `${item.soLuong === 0 ? 'colorcdiv hetsp' : 'colorcdiv'} ${index === indexkichthuoc ? 'activecolor' : ''}`;
                                         return (
-                                            <div className="col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
-                                            <div className={divClass} onClick={() => {
-                                                                        if (item.soLuong > 0) {
-                                                                            setChiTietSpChon(item, index);
-                                                                        }
-                                                                        }}>
-                                                <span className="storagedetail">{item.kichCo.tenKichCo}</span><br/>
-                                                <span className="pricestorage">{formatMoney(item.giaTien)}</span>
-                                            </div>
+                                            <div>
+                                                <div className="col-lg-3 col-md-3 col-sm-6 col-6" key={index}>
+                                                    <div className={divClass} onClick={() => {
+                                                                                setGiaTien(item?.giaTien)
+                                                                                if (item.soLuong > 0) {
+                                                                                    setChiTietSpChon(item, index);
+                                                                                }
+                                                                                }}>
+                                                        <span className="storagedetail">{item.kichCo.tenKichCo}</span><br/>
+                                                        {/* <span className="pricestorage">{formatMoney(item.giaTien)}</span> */}
+                                                    </div>
+                                                </div>
+                                                <div className='mt-2' style={{fontSize: '12px'}}>Còn: <span style={{color: 'green', fontWeight: '800'}}>{item.soLuong}</span> sản phẩm</div>
                                             </div>
                                         );
                                     })}

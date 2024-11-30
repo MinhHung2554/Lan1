@@ -337,8 +337,8 @@ public class HoaDonController {
             hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
             sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
             tongTien += hc.getSoLuong() * hc.getSanPhamChiTiet().getGiaTien();
-            hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
-            sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
+//            hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
+//            sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
         }
         hoaDon.setTrangThai(8);
         hoaDon.setTongTien(new BigDecimal(tongTien));
